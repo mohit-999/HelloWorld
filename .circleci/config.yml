@@ -1,5 +1,13 @@
 version: 2.1
 jobs:
+  one:
+    docker:
+      - image: cimg/ruby:2.6.8
+    steps:
+      - checkout
+      - run: echo "Its Vishal First Hello World...p"
+      - run: sleep 25
+
   two:
     docker:
       - image: cimg/ruby:3.0.2
@@ -12,7 +20,6 @@ jobs:
           root: my_workspace
           paths:
             - echo-output
-      - run: echo "A more familiar hi"
       - attach_workspace:
           at: my_workspace
       - run: |
@@ -26,4 +33,7 @@ workflows:
   version: 2
   one_and_two:
     jobs:
-      - two
+      - one
+      - two:
+          requires:
+            - one
